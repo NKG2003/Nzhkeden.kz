@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&family=Tinos&display=swap"
+        rel="stylesheet">
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    roboto: ['Roboto Condensed', 'sans-serif'],
+                    tinos: ['Tinos', 'serif']
+                },
+            }
+        }
+    </script>
+    <style>
+        .error .input-field {
+            border-color: red;
+
+        }
+
+        .error-label {
+            display: block;
+            color: red;
+            margin-bottom: -40px;
+            font-size: 0.9rem;
+        }
+
+        #toTop {
+            position: fixed;
+            display: inline-block;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            z-index: 1000;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            border-radius: 4px;
+            background: rgb(80, 79, 79);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, .2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in-out;
+        }
+
+        #toTop:hover {
+            background: rgb(133, 133, 133);
+        }
+
+        #toTop svg {
+            position: relative;
+            width: 25px;
+            height: 25px;
+            top: 15px;
+            right: -18px;
+            fill: #fff;
+            transition: all .3s ease-in-out;
+        }
+
+        #toTop:hover svg {
+            cursor: pointer;
+            fill: #fff;
+            transition: all .3s ease-in-out;
+        }
+
+        #toTop.show {
+            opacity: 1;
+            visibility: visible;
+            right: calc(2%);
+        }
+    </style>
+    <title>Nzhkeden.kz</title>
+</head>
+
+<body class="font-roboto bg-gray-100">
+
+    <div class="relative">
+        <div class="h-full flex justify-center">
+            <nav
+                class="rounded-b-3xl bg-white fixed z-30 py-1 w-screen h-14 flex flex-wrap items-center mx-auto p-0 shadow-xl">
+                <router-link to="/" class="flex justify-start w-auto h-12 p-2 -ml-6 lg:-ml-3">
+                    <img src="/assets/logo_2.png" class="h-10 ml-9" alt="Flowbite Logo" /></router-link>
+                <button data-collapse-toggle="navbar-dropdown" type="button"
+                    class="inline-flex bg-white items-end p-2 w-10 h-10 justify-end ml-auto text-xs md:text-xs text-teal-950 rounded-lg md:hidden"
+                    aria-controls="navbar-dropdown" aria-expanded="false">
+                    <span class="sr-only"></span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+                <div class="hidden w-full pr-2 lg:pl-2 md:block md:w-auto text-teal-950" id="navbar-dropdown">
+                    <ul
+                        class="flex uppercase flex-col xl:text-base md:text-xs font-extrabold p-0 mt-5 shadow-xl sm:shadow-none border-2 bg-white text-teal-950 rounded-lg md:flex-row md:space-x-0.5 lg:md:space-x-1 md:mt-0 md:border-0 border-teal-950">
+                        <button
+                            class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+                            <a v-on:click="linkAndScrollTop('/')"
+                                class="sm:ml-0 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-main"
+                                data-lang="main">Главная</a>
+                        </button>
+
+                        <li class="border-b-2 border-b-gray-300 sm:border-0">
+                            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" data-lang="company"
+                                class="flex items-center uppercase justify-between w-full py-3 sm:ml-1 lg:ml-3 ml-3 lg:p-3 lg:px-3 lng-company rounded md:hover:bg-transparent md:border-0 md:w-auto hover:text-blue-600">
+                                О компании
+                                <svg class="w-2.5 h-2.5 mr-5 sm:mr-0 ml-1" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown menu -->
+
+                            <div id="dropdownNavbar"
+                                class="z-10 hidden justify-center font-normal divide-yrounded-lg shadow">
+                                <ul class="py-6 bg-teal-950 fixed flex top-0 -left-16 flex-col text-white"
+                                    aria-labelledby="dropdownLargeButton">
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/history')"
+                                            class="block px-6 py-2 lng-history cursor-pointer"
+                                            data-lang="history">История</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/org_strucutre')"
+                                            class="block px-6 py-2 lng-organizational-structure cursor-pointer"
+                                            data-lang="organizational-structure">Организационная структура</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/leadership')"
+                                            class="block px-6 py-2 lng-leadership cursor-pointer"
+                                            data-lang="leadership">Руководство</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/process')"
+                                            class="block px-6 py-2 lng-types-of-activities cursor-pointer"
+                                            data-lang="types-of-activities ">Виды деятельности</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/process')"
+                                            class="block px-6 py-2 lng-development-plans cursor-pointer"
+                                            data-lang="development-plans ">Планы развития</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/process')"
+                                            class="block px-6 py-2 lng-reporting cursor-pointer"
+                                            data-lang="reporting">Отчетность</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/regulations')"
+                                            class="block px-6 py-2 lng-regulatory-documents cursor-pointer"
+                                            data-lang="regulatory-documents">Нормативные документы</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/ads')"
+                                            class="block px-6 py-2 lng-ads cursor-pointer"
+                                            data-lang="ads">Объявления</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- блоки -->
+
+                        <button
+                            class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+                            <a v-on:click="linkAndScrollTop('/process')"
+                                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-projects"
+                                data-lang="projects">Проекты</a>
+                        </button>
+
+                        <li class="border-b-2 border-b-gray-300 sm:border-0">
+                            <button id="dropdownNavbarLin" data-dropdown-toggle="dropdownNavba" data-lang="company"
+                                class="flex items-center uppercase justify-between w-full py-3 sm:ml-1 lg:ml-3 ml-3 lg:p-3 lg:px-3 lng-company rounded md:hover:bg-transparent md:border-0 md:w-auto hover:text-blue-600">
+                                Комплаенс
+                                <svg class="w-2.5 h-2.5 mr-5 sm:mr-0 ml-1" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown menu -->
+
+                            <div id="dropdownNavba"
+                                class="z-10 hidden justify-center font-normal divide-yrounded-lg shadow">
+                                <ul class="py-6 bg-teal-950 fixed flex top-0 -left-16 flex-col text-white"
+                                    aria-labelledby="dropdownLargeButto">
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/position')"
+                                            class="block px-6 py-2 lng-history cursor-pointer"
+                                            data-lang="history">Положение</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/anti_corruption')"
+                                            class="block px-6 py-2 lng-history cursor-pointer"
+                                            data-lang="history">Проект антикоррупционных стандартов</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/anti_corruption_policy')"
+                                            class="block px-6 py-2 lng-history cursor-pointer"
+                                            data-lang="history">Политика противодействия коррупции</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="
+                            linkAndScrollTop('/anti_corruption_instructions')
+                          " class="block px-6 py-2 lng-history cursor-pointer" data-lang="history">Инструкция по
+                                            противодействию коррупции</a>
+                                    </li>
+                                    <li>
+                                        <a v-on:click="linkAndScrollTop('/policy_on_identifying')"
+                                            class="block px-6 py-2 lng-history cursor-pointer"
+                                            data-lang="history">Политика по выявлению и урегулированию конфликта
+                                            интересов должностных лиц и работников</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <button
+                            class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+                            <a v-on:click="linkAndScrollTop('/news')"
+                                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-news cursor-pointer"
+                                data-lang="news">Новости</a>
+                        </button>
+                        <button
+                            class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+                            <a href="https://goszakup.gov.kz/"
+                                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-purchases"
+                                data-lang="purchases">Закупки</a>
+                        </button>
+
+                        <button id="openModalBtn"
+                            class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+                            <a id="vacancyLink" onclick="linkAndScrollTop('#')"
+                                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-vacancy"
+                                data-lang="vacancy">Вакансия</a>
+                        </button>
+                        <div class="">
+                            <div id="modalContainer"
+                                class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
+                                <div class="bg-white p-8 rounded shadow-md">
+                                    <p class="mb-4">
+                                        Вас перенаправит на интернет-ресурс enbek.kz <br />Вы
+                                        согласны?
+                                    </p>
+                                    <div class="flex justify-center">
+                                        <button onclick="closeModal(true)"
+                                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                            <a href="https://www.enbek.kz/ru/search/vacancy?pou=961633&except[subsidized]=subsidized"
+                                                target="_blank">Да</a>
+                                        </button>
+                                        <button onclick="closeModal(false)"
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                            Нет
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+                            <a v-on:click="linkAndScrollTop('/contacts')"
+                                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-contacts"
+                                data-lang="contacts">Контакты</a>
+                        </button>
+                        <!-- Language -->
+
+                        <div class="md:flex md:absolute md:right-0">
+                            <button id="dropdownDefaultButtoLanguage" data-dropdown-toggle="dropdow"
+                                data-lang="language"
+                                class="flex items-center lng-search border-b-2 border-b-gray-300 sm:border-0 justify-start lg:justify-end w-full sm:w-1/2 py-3 pb-4 pl-3 sm:pl-0 pr-3 rounded md:hover:bg-transparent md:border-0 hover:text-blue-600 uppercase"
+                                type="button">
+                                Язык<svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+
+                            <div id="dropdow"
+                                class="z-10 hidden divide-y absolute shadow w-14 text-center md:bg-teal-950/95 bg-teal-950 font-medium">
+                                <ul class="py-0.5 uppercase text-white" aria-labelledby="dropdownDefaultButtoLanguage">
+                                    <button>
+                                        <a href="#" class="block px-4 py-2 mt-3 header__btn" data-btn="ru"
+                                            data-lang="russian">rus</a>
+                                    </button>
+                                    <button>
+                                        <a href="#" class="block px-4 py-2 mt-3 header__btn" data-btn="kz"
+                                            data-lang="kazakh">kaz</a>
+                                    </button>
+                                    <button>
+                                        <a href="#" class="block px-4 py-2 mt-3 header__btn" data-btn="en"
+                                            data-lang="english">eng</a>
+                                    </button>
+                                </ul>
+                            </div>
+
+                            <!-- Поиск -->
+
+                            <li class="ml-3 md:m-0">
+                                <a>
+                                    <div class="flex justify-start lg:justify-end py-2 mr-4">
+                                        <input type="text"
+                                            class="text-gray-600 border-2 border-teal-950 sm:w-full lg:w-2/3 md:w-12 h-7 font-normal px-2 py-2.5 rounded-l-lg"
+                                            name="SearchForm[keyword]" placeholder="Поиск" aria-required="true" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            class="bi bi-search w-5 h-7 rounded-r-lg px-1 border-2 border-teal-950 fill-black"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </div>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+    <div class="relative flex flex-col">
+        <div
+            class="body-font justify-center flex xl:text-3xl text-teal-950 px-1 lg:px-16 pb-10 bg-[url('/assets/Astana.jpg')] bg-cover bg-no-repeat bg-center bg-local">
+            <div
+                class="py-1 mx-auto flex xl:justify-center md:flex-nowrap flex-wrap z-10 pl-2 mt-20 bg-white rounded-sm">
+                <div class="text-teal-950 flex-col 2xl:mr-10 pr-10 z-10 xl:p-10 p-4">
+                    <h1 class="lg:mb-6 mb-4 font-extrabold">КОНТАКТЫ</h1>
+                    <p class="font-bold mb-4">Приемная</p>
+
+                    <!-- <div class="mb-6 lg:mb-8 lg:text-xl flex flex-col lg:flex-row">
+              <p class="lg:text-xl mr-2">Телефон:</p>
+              <p>+7-XXX-XXX-XX-XX</p>
+            </div> -->
+
+                    <div class="mb-4 lg:mb-7 lg:text-xl flex flex-col lg:flex-row">
+                        <p class="mr-2">Эл. почта:</p>
+                        <p>info@nzhkeden.kz</p>
+                    </div>
+
+                    <p class="font-bold mb-2 lg:mb-4">Юридический адрес</p>
+                    <div class="flex flex-col mb-3 lg:mb-7">
+                        <p class="lg:text-xl">Область Жетысу,Панфиловский район,</p>
+                        <p class="lg:text-xl">Пенжимский сельский округ,село Пенжим,</p>
+                        <p class="lg:text-xl">Учетный квартал 87, здание 27</p>
+                    </div>
+
+                    <p class="font-bold mb-3">Почтовый индекс</p>
+                    <p class="lg:text-2xl">041322</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <div
+                class="hidden xl:flex sticky top-1/4 mr-6 p-5 bg-white border text-teal-950 flex-col 2xl:left-2/3 left-full 2xl:w-64 w-48 font-extrabold">
+                <a href="#glav_office">Головной офис: СВХ "Нур Жолы"</a>
+                <a href="#bek_office">Бэк офис: Астана</a>
+            </div>
+
+            <div class="w-full flex flex-col justify-start items-start lg:p-10 p-5 lg:px-28 xl:-mt-36">
+                <p
+                    class="z-10 text-teal-950 lg:text-4xl text-2xl font-extrabold rounded-sm text-start flex justify-start items-start">
+                    Наши адреса
+                </p>
+
+                <div class="w-full lg:w-auto text-teal-950">
+                    <a name="glav_office" class="lg:pt-10 pt-4 lg:text-2xl text-lg font-semibold">
+                        Головной офис: СВХ "Нур Жолы"
+                    </a>
+                    <div class="hidden lg:flex flex-col">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10481.651764935008!2d80.3967903!3d44.1586367!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x387f177232258c41%3A0x4bd9eec54c46002d!2z0J3SsdGAINC20L7Qu9GLIC0gTnVyIEpvbHk!5e1!3m2!1sru!2skz!4v1699017324260!5m2!1sru!2skz"
+                            width="850px" height="350px" style="border: 0" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" class="mt-10"></iframe>
+                    </div>
+                    <div class="flex lg:hidden w-full">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10481.651764935008!2d80.3967903!3d44.1586367!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x387f177232258c41%3A0x4bd9eec54c46002d!2z0J3SsdGAINC20L7Qu9GLIC0gTnVyIEpvbHk!5e1!3m2!1sru!2skz!4v1699017324260!5m2!1sru!2skz"
+                            width="100%" height="350px" style="border: 0" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" class="mt-4"></iframe>
+                    </div>
+                    <div class="flex justify-between">
+                        <div class="flex flex-col sm:flex-col mr-4 lg:mr-0">
+                            <div class="flex flex-col sm:flex-row">
+                                <p class="font-semibold lg:pt-5 pt-2 lg:text-xl text-base pr-2">
+                                    Юридический адрес:
+                                </p>
+                                <p class="lg:pt-5 pt-2 lg:text-xl text-base">
+                                    Жетысу область, Панфиловский район,
+                                </p>
+                            </div>
+
+                            <p class="pt-2 lg:text-xl text-base">
+                                Пенжимский сельский округ, село Пенжим, Учетный квартал 87, здание
+                                27
+                            </p>
+                        </div>
+
+                        <div class="font-semibold lg:pt-5 pt-2 lg:text-xl text-base pr-2 flex">
+                            <p>info@nzhkeden.kz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col justify-start items-start p-5 lg:px-28 bg-white">
+                <div class="w-full lg:w-auto text-teal-950">
+                    <a name="bek_office" class="lg:pt-10 pt-4 lg:text-2xl text-lg font-semibold">
+                        Бэк офис: Астана
+                    </a>
+                    <div>
+                        <div class="hidden lg:flex flex-col">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d582.208396153396!2d71.4129549861172!3d51.16703674251905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x424587ddecf50f95%3A0xdd299fb5e9c204de!2z0JHQpiDQltCw0YDRgtCw0YE!5e1!3m2!1sru!2skz!4v1700120751076!5m2!1sru!2skz"
+                                width="850px" height="350px" style="border: 0" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade" class="mt-10"></iframe>
+                        </div>
+                        <div class="flex lg:hidden w-full">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d582.208396153396!2d71.4129549861172!3d51.16703674251905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x424587ddecf50f95%3A0xdd299fb5e9c204de!2z0JHQpiDQltCw0YDRgtCw0YE!5e1!3m2!1sru!2skz!4v1700120751076!5m2!1sru!2skz"
+                                width="100%" height="350px" style="border: 0" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade" class="mt-4"></iframe>
+                        </div>
+
+                        <div class="flex lg:mr-0 justify-between">
+                            <div class="flex flex-col sm:flex-row">
+                                <p class="font-semibold lg:pt-5 pt-2 lg:text-xl text-base pr-2">
+                                    Юридический адрес:
+                                </p>
+                                <p class="lg:pt-5 pt-2 lg:text-xl text-base">проспект Абая 23</p>
+                            </div>
+
+                            <div class="font-semibold lg:pt-5 pt-2 lg:text-xl text-base pr-2">
+                                <p>info@nzhkeden.kz</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="body-font xl:text-4xl text-teal-950 px-5 lg:px-28 z-10 rounded-sm pb-10 py-5">
+            <div class="text-teal-950 2xl:mr-10 pr-4 z-10">
+                <h1 class="text-teal-950 font-bold lg:mt-0 text-2xl">ОБРАТНАЯ СВЯЗЬ</h1>
+                <p class="leading-relaxed mb-5 text-lg text-teal-950 text-justify py-2">
+                    Если у вас есть предложения или вопросы, пожалуйста,заполните следующую
+                    форму, чтобы связаться с нами.
+                </p>
+                <div class="container">
+                    <form action="" class="form" id="add-form">
+                        <div class="gap-6 mb-6 md:grid-cols-3 flex flex-col md:flex-row">
+                            <div class="">
+                                <div class="mb-8">
+                                    <label for="last_name" class="block mb-2 text-lg font-medium text-gray-900">Фамилия
+                                    </label>
+
+                                    <input type="text" id="last_name" name="last_name" data-required="true"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="..." />
+
+                                    <!-- <span v-if="errors.last_name"
+                                    class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                    errors.last_name }}</span> -->
+                                </div>
+
+                                <div class="mb-8">
+                                    <label for="first_name"
+                                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white mt-6">Имя
+                                    </label>
+                                    <input type="text" id="first_name" name="first_name" data-required="true"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="..." />
+                                    <!-- <span v-if="errors.first_name"
+                                    class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                    errors.first_name }}</span> -->
+                                </div>
+                                <div class="mb-8">
+                                    <label for="middle_name"
+                                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white mt-6">Отчество</label>
+                                    <input type="text" id="middle_name" name="middle_name" data-required="true"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="..." />
+                                    <!-- <span v-if="errors.middle_name"
+                                    class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                    errors.middle_name }}</span> -->
+                                </div>
+                            </div>
+
+                            <div class="">
+                                <div class="mb-8">
+                                    <label for="iin_or_bin"
+                                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">ИИН/БИН
+                                    </label>
+                                    <input type="text" id="iin_or_bin" name="iin_or_bin" data-required="true"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="..." pattern="[0-9]{12}" maxlength="12" />
+                                    <!-- <span v-if="errors.iin_or_bin"
+                                    class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                    errors.iin_or_bin }}</span> -->
+                                </div>
+                                <div class="mb-8">
+                                    <label for="phone_number"
+                                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white mt-6">Контакты
+                                    </label>
+                                    <input type="tel" id="phone_number" name="phone_number" data-required="true"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="8-ХХХ-ХХХ-ХХ-ХХ" pattern="[8]{1}[0-9]{3}[0-9]{3}[0-9]{2}[0-9]{2}"
+                                        maxlength="11" />
+                                    <!-- <span v-if="errors.phone_number"
+                                    class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                    errors.phone_number }}</span> -->
+                                </div>
+                                <div class="mb-8">
+                                    <label for="email"
+                                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white mt-6">Эл.
+                                        адресс
+                                    </label>
+                                    <input type="email" id="email" name="email" data-required="true"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="..." />
+                                    <!-- <span v-if="errors.email"
+                                    class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                    errors.email }}</span> -->
+                                </div>
+                            </div>
+
+                            <div class="mb-8">
+                                <label for="mail_address"
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Почтовый адресс
+                                </label>
+                                <input type="text" id="mail_address" name="mail_address" placeholder=" ..."
+                                    data-required="true"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                                <!-- <span v-if="errors.mail_address"
+                                class="error absolute block mb-2 text-base font-medium text-gray-900">{{
+                                errors.mail_address }}</span> -->
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <label for="questions"
+                                class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Вопросы
+                            </label>
+                            <textarea id="questions" data-required="true"
+                                class="contact-form-message w-3/4 bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                                placeholder="..." name="questions"></textarea>
+                            <span id="questionsError"
+                                class="error absolute block mb-2 text-base font-medium text-gray-900"></span>
+                        </div>
+
+                        <button value="submit" type="submit"
+                            class="send-btn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 mt-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full sm:w-auto px-5 py-2.5 text-center">
+                            Отправить
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a href="#" id="toTop">
+        <svg width="10pt" height="10pt" viewBox="0 0 630 630" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <g>
+                    <path
+                        d="M489.229,442.468L254.563,37.135c-3.797-6.592-14.677-6.592-18.453,0L1.443,442.468c-1.92,3.307-1.92,7.36-0.021,10.667
+                c1.92,3.307,5.44,5.333,9.259,5.333h469.333c3.819,0,7.339-2.027,9.259-5.333C491.128,449.849,491.128,445.775,489.229,442.468z" />
+                </g>
+            </g>
+        </svg>
+    </a>
+
+
+    <footer class="text-white body-font bg-gray-500 absolute z-20 buttem-0 w-full">
+        <div
+            class="flex flex-col items-center lg:items-start border-b-2 lg:justify-start justify-center border-gray-900 pb-3">
+            <div
+                class="py-2 flex flex-wrap items-center justify-center lg:text-xl border-b-2 border-gray-900 px-16 w-full">
+                <div
+                    class="flex md:flex-nowrap flex-col sm:flex-row justify-center items-center text-center lg:text-start lg:text-xl md:text-base text-sm font-extrabold">
+                    <div class="relative sm:w-64 w-40 sm:mr-4 mr-2">
+                        ТОО "NurZholy Customs Service"
+                    </div>
+
+                    <button class="text-white md:ml-6 md:mt-0 mt-2 text-center">
+                        <a v-on:click="linkAndScrollTop('/')" class="" data-lang="news">О компании</a>
+                    </button>
+                    <button class="text-white md:ml-6 md:mt-0 mt-2 text-center">
+                        <a v-on:click="linkAndScrollTop('/Process')" class="" data-lang="news">Новости</a>
+                    </button>
+                    <button class="text-white md:ml-6 md:mt-0 mt-2 text-center">
+                        <a v-on:click="linkAndScrollTop('/Contacts')" data-lang="contacts">
+                            Контакты
+                        </a>
+                    </button>
+                </div>
+                <span
+                    class="inline-flex sm:ml-auto sm:mt-0 mt-6 w-full justify-center lg:justify-start md:justify-start md:w-auto">
+                    <a class="text-white">info@nzhkeden.kz </a>
+                </span>
+            </div>
+
+            <div class="flex pt-3 lg:pl-16 pl-4 px-4 lg:px-0 sm:justify-start justify-center">
+                <a
+                    href="https://www.google.com/maps/place/%D0%9D%D2%B1%D1%80+%D0%B6%D0%BE%D0%BB%D1%8B+-+Nur+Joly/@44.1586367,80.3967903,4382m/data=!3m1!1e3!4m6!3m5!1s0x387f177232258c41:0x4bd9eec54c46002d!8m2!3d44.157463!4d80.3953389!16s%2Fg%2F11j302j8rs?entry=ttu"><svg
+                        class="w-8 h-8 text-white dark:text-white p-1 border-2 border-white rounded-md"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                        <path
+                            d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+                    </svg>
+                </a>
+                <div class="flex flex-col px-2 text-sm">
+                    <p>Юридический адрес: Жетысу область, Панфиловский район,</p>
+                    <p>
+                        Пенжимский сельский округ, село Пенжим, Учетный квартал 87, здание
+                        27
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-500">
+            <div
+                class="mx-auto py-2 px-11 flex flex-wrap flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center">
+                <p class="text-white text-lg text-center sm:text-left ml-5">
+                    © 2023 ТОО "NurZholy Customs Service". Все права защищены
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        function validation(form) {
+
+            function removeError(input) {
+                const parent = input.parentNode;
+
+                if (parent.classList.contains('error')) {
+                    parent.querySelector('.error-label').remove()
+                    parent.classList.remove('error')
+                }
+            }
+
+            function createError(input, text) {
+                const parent = input.parentNode;
+                const errorLabel = document.createElement('label')
+
+                errorLabel.classList.add('error-label')
+                errorLabel.textContent = text
+
+                parent.classList.add('error')
+
+                parent.append(errorLabel)
+            }
+
+
+            let result = true;
+
+            const allInputs = form.querySelectorAll('input');
+
+            for (const input of allInputs) {
+
+                removeError(input)
+
+                if (input.dataset.required == "true") {
+                    if (input.value == "") {
+                        removeError(input)
+                        createError(input, 'Необходимо заполнить поле')
+                        result = false
+                    }
+                }
+            }
+            return result
+        }
+        document.getElementById('add-form').addEventListener('submit', function (event) {
+            event.preventDefault()
+            if (validation(this) == true) {
+            }
+        })
+    </script>
+
+    <script>
+        document.getElementById('openModalBtn').addEventListener('click', openModal);
+
+        function openModal() {
+            document.getElementById('modalContainer').classList.remove('hidden');
+        }
+
+        function closeModal(redirect) {
+            document.getElementById('modalContainer').classList.add('hidden');
+            if (redirect) {
+                window.location.href = 'https://www.enbek.kz/ru/search/vacancy?pou=961633&except[subsidized]=subsidized';
+            }
+        }
+
+        function linkAndScrollTop(anchor) {
+            document.getElementById('vacancyLink').click();
+        }
+    </script>
+
+
+    <script>
+        function scrollTo(to, duration = 700) {
+            const
+                element = document.scrollingElement || document.documentElement,
+                start = element.scrollTop,
+                change = to - start,
+                startDate = +new Date(),
+                // t = current time
+                // b = start value
+                // c = change in value
+                // d = duration
+                easeInOutQuad = function (t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return c / 2 * t * t + b;
+                    t--;
+                    return -c / 2 * (t * (t - 2) - 1) + b;
+                },
+                animateScroll = function () {
+                    const currentDate = +new Date();
+                    const currentTime = currentDate - startDate;
+                    element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration));
+                    if (currentTime < duration) {
+                        requestAnimationFrame(animateScroll);
+                    }
+                    else {
+                        element.scrollTop = to;
+                    }
+                };
+            animateScroll();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let btn = document.querySelector('#toTop');
+            window.addEventListener('scroll', function () {
+                // Если прокрутили дальше 599px, показываем кнопку
+                if (pageYOffset > 100) {
+                    btn.classList.add('show');
+                    // Иначе прячем
+                } else {
+                    btn.classList.remove('show');
+                }
+            });
+
+            // При клике прокручиываем на самый верх
+            btn.onclick = function (click) {
+                click.preventDefault();
+                scrollTo(0, 400);
+            }
+        });
+    </script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</body>
+
+</html>

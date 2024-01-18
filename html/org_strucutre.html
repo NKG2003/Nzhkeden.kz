@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&family=Tinos&display=swap"
+    rel="stylesheet">
+
+
+  <script>
+    tailwind.config = {
+      theme: {
+        fontFamily: {
+          roboto: ['Roboto Condensed', 'sans-serif'],
+          tinos: ['Tinos', 'serif']
+        },
+      }
+    }
+  </script>
+  <style>
+    .custom-background {
+      opacity: 0.3;
+    }
+
+    .error .input-field {
+      border-color: red;
+
+    }
+
+    .error-label {
+      display: block;
+      color: red;
+      margin-bottom: -40px;
+      font-size: 0.9rem;
+    }
+
+    #toTop {
+      position: fixed;
+      display: inline-block;
+      bottom: 30px;
+      right: 30px;
+      width: 55px;
+      height: 55px;
+      z-index: 1000;
+      cursor: pointer;
+      text-align: center;
+      color: #fff;
+      border-radius: 4px;
+      background: rgb(80, 79, 79);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, .2);
+      opacity: 0;
+      visibility: hidden;
+      transition: all .3s ease-in-out;
+    }
+
+    #toTop:hover {
+      background: rgb(133, 133, 133);
+    }
+
+    #toTop svg {
+      position: relative;
+      width: 25px;
+      height: 25px;
+      top: 15px;
+      right: -18px;
+      fill: #fff;
+      transition: all .3s ease-in-out;
+    }
+
+    #toTop:hover svg {
+      cursor: pointer;
+      fill: #fff;
+      transition: all .3s ease-in-out;
+    }
+
+    #toTop.show {
+      opacity: 1;
+      visibility: visible;
+      right: calc(2%);
+    }
+  </style>
+  <title>Nzhkeden.kz</title>
+</head>
+
+<body class="font-roboto bg-gray-100">
+
+  <div class="relative">
+    <div class="h-full flex justify-center">
+      <nav
+        class="rounded-b-3xl bg-white fixed z-30 py-1 w-screen h-14 flex flex-wrap items-center mx-auto p-0 shadow-xl">
+        <router-link to="/" class="flex justify-start w-auto h-12 p-2 -ml-6 lg:-ml-3">
+          <img src="/assets/logo_2.png" class="h-10 ml-9" alt="Flowbite Logo" /></router-link>
+        <button data-collapse-toggle="navbar-dropdown" type="button"
+          class="inline-flex bg-white items-end p-2 w-10 h-10 justify-end ml-auto text-xs md:text-xs text-teal-950 rounded-lg md:hidden"
+          aria-controls="navbar-dropdown" aria-expanded="false">
+          <span class="sr-only"></span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15" />
+          </svg>
+        </button>
+        <div class="hidden w-full pr-2 lg:pl-2 md:block md:w-auto text-teal-950" id="navbar-dropdown">
+          <ul
+            class="flex uppercase flex-col xl:text-base md:text-xs font-extrabold p-0 mt-5 shadow-xl sm:shadow-none border-2 bg-white text-teal-950 rounded-lg md:flex-row md:space-x-0.5 lg:md:space-x-1 md:mt-0 md:border-0 border-teal-950">
+            <button
+              class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+              <a v-on:click="linkAndScrollTop('/')"
+                class="sm:ml-0 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-main" data-lang="main">Главная</a>
+            </button>
+
+            <li class="border-b-2 border-b-gray-300 sm:border-0">
+              <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" data-lang="company"
+                class="flex items-center uppercase justify-between w-full py-3 sm:ml-1 lg:ml-3 ml-3 lg:p-3 lg:px-3 lng-company rounded md:hover:bg-transparent md:border-0 md:w-auto hover:text-blue-600">
+                О компании
+                <svg class="w-2.5 h-2.5 mr-5 sm:mr-0 ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                  fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 4 4 4-4" />
+                </svg>
+              </button>
+
+              <!-- Dropdown menu -->
+
+              <div id="dropdownNavbar" class="z-10 hidden justify-center font-normal divide-yrounded-lg shadow">
+                <ul class="py-6 bg-teal-950 fixed flex top-0 -left-16 flex-col text-white"
+                  aria-labelledby="dropdownLargeButton">
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/history')" class="block px-6 py-2 lng-history cursor-pointer"
+                      data-lang="history">История</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/org_strucutre')"
+                      class="block px-6 py-2 lng-organizational-structure cursor-pointer"
+                      data-lang="organizational-structure">Организационная структура</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/leadership')"
+                      class="block px-6 py-2 lng-leadership cursor-pointer" data-lang="leadership">Руководство</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/process')"
+                      class="block px-6 py-2 lng-types-of-activities cursor-pointer"
+                      data-lang="types-of-activities ">Виды деятельности</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/process')"
+                      class="block px-6 py-2 lng-development-plans cursor-pointer" data-lang="development-plans ">Планы
+                      развития</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/process')" class="block px-6 py-2 lng-reporting cursor-pointer"
+                      data-lang="reporting">Отчетность</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/regulations')"
+                      class="block px-6 py-2 lng-regulatory-documents cursor-pointer"
+                      data-lang="regulatory-documents">Нормативные документы</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/ads')" class="block px-6 py-2 lng-ads cursor-pointer"
+                      data-lang="ads">Объявления</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <!-- блоки -->
+
+            <button
+              class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+              <a v-on:click="linkAndScrollTop('/process')"
+                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-projects"
+                data-lang="projects">Проекты</a>
+            </button>
+
+            <li class="border-b-2 border-b-gray-300 sm:border-0">
+              <button id="dropdownNavbarLin" data-dropdown-toggle="dropdownNavba" data-lang="company"
+                class="flex items-center uppercase justify-between w-full py-3 sm:ml-1 lg:ml-3 ml-3 lg:p-3 lg:px-3 lng-company rounded md:hover:bg-transparent md:border-0 md:w-auto hover:text-blue-600">
+                Комплаенс
+                <svg class="w-2.5 h-2.5 mr-5 sm:mr-0 ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                  fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 4 4 4-4" />
+                </svg>
+              </button>
+
+              <!-- Dropdown menu -->
+
+              <div id="dropdownNavba" class="z-10 hidden justify-center font-normal divide-yrounded-lg shadow">
+                <ul class="py-6 bg-teal-950 fixed flex top-0 -left-16 flex-col text-white"
+                  aria-labelledby="dropdownLargeButto">
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/position')" class="block px-6 py-2 lng-history cursor-pointer"
+                      data-lang="history">Положение</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/anti_corruption')"
+                      class="block px-6 py-2 lng-history cursor-pointer" data-lang="history">Проект антикоррупционных
+                      стандартов</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/anti_corruption_policy')"
+                      class="block px-6 py-2 lng-history cursor-pointer" data-lang="history">Политика противодействия
+                      коррупции</a>
+                  </li>
+                  <li>
+                    <a v-on:click="
+                            linkAndScrollTop('/anti_corruption_instructions')
+                          " class="block px-6 py-2 lng-history cursor-pointer" data-lang="history">Инструкция по
+                      противодействию коррупции</a>
+                  </li>
+                  <li>
+                    <a v-on:click="linkAndScrollTop('/policy_on_identifying')"
+                      class="block px-6 py-2 lng-history cursor-pointer" data-lang="history">Политика по выявлению и
+                      урегулированию конфликта
+                      интересов должностных лиц и работников</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <button
+              class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+              <a v-on:click="linkAndScrollTop('/news')"
+                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-news cursor-pointer"
+                data-lang="news">Новости</a>
+            </button>
+            <button
+              class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+              <a href="https://goszakup.gov.kz/"
+                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-purchases"
+                data-lang="purchases">Закупки</a>
+            </button>
+            <button id="openModalBtn"
+              class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+              <a id="vacancyLink" onclick="linkAndScrollTop('#')"
+                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-vacancy"
+                data-lang="vacancy">Вакансия</a>
+            </button>
+            <div class="">
+              <div id="modalContainer"
+                class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
+                <div class="bg-white p-8 rounded shadow-md">
+                  <p class="mb-4">
+                    Вас перенаправит на интернет-ресурс enbek.kz <br />Вы
+                    согласны?
+                  </p>
+                  <div class="flex justify-center">
+                    <button onclick="closeModal(true)"
+                      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+                      <a href="https://www.enbek.kz/ru/search/vacancy?pou=961633&except[subsidized]=subsidized"
+                        target="_blank">Да</a>
+                    </button>
+                    <button onclick="closeModal(false)"
+                      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                      Нет
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="block uppercase text-start py-3 text-teal-950 hover:text-blue-600 border-b-2 border-b-gray-300 sm:border-0">
+              <a v-on:click="linkAndScrollTop('/contacts')"
+                class="sm:ml-1 lg:ml-3 ml-3 xl:p-3 p-0 pr-96 sm:pr-0 2xl:p-5 py-4 lng-contacts"
+                data-lang="contacts">Контакты</a>
+            </button>
+            <!-- Language -->
+
+            <div class="md:flex md:absolute md:right-0">
+              <button id="dropdownDefaultButtoLanguage" data-dropdown-toggle="dropdow" data-lang="language"
+                class="flex items-center lng-search border-b-2 border-b-gray-300 sm:border-0 justify-start lg:justify-end w-full sm:w-1/2 py-3 pb-4 pl-3 sm:pl-0 pr-3 rounded md:hover:bg-transparent md:border-0 hover:text-blue-600 uppercase"
+                type="button">
+                Язык<svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 4 4 4-4" />
+                </svg>
+              </button>
+
+              <div id="dropdow"
+                class="z-10 hidden divide-y absolute shadow w-14 text-center md:bg-teal-950/95 bg-teal-950 font-medium">
+                <ul class="py-0.5 uppercase text-white" aria-labelledby="dropdownDefaultButtoLanguage">
+                  <button>
+                    <a href="#" class="block px-4 py-2 mt-3 header__btn" data-btn="ru" data-lang="russian">rus</a>
+                  </button>
+                  <button>
+                    <a href="#" class="block px-4 py-2 mt-3 header__btn" data-btn="kz" data-lang="kazakh">kaz</a>
+                  </button>
+                  <button>
+                    <a href="#" class="block px-4 py-2 mt-3 header__btn" data-btn="en" data-lang="english">eng</a>
+                  </button>
+                </ul>
+              </div>
+
+              <!-- Поиск -->
+
+              <li class="ml-3 md:m-0">
+                <a>
+                  <div class="flex justify-start lg:justify-end py-2 mr-4">
+                    <input type="text"
+                      class="text-gray-600 border-2 border-teal-950 sm:w-full lg:w-2/3 md:w-12 h-7 font-normal px-2 py-2.5 rounded-l-lg"
+                      name="SearchForm[keyword]" placeholder="Поиск" aria-required="true" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                      class="bi bi-search w-5 h-7 rounded-r-lg px-1 border-2 border-teal-950 fill-black"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                  </div>
+                </a>
+              </li>
+            </div>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="h-screen">
+    <div class="z-10 flex body-font text-black pt-10 items-center flex-col">
+      <h1
+        class="flex justify-center mb-2 font-bold text-base lg:text-xl xl:text-xl p-3 mx-3 lg:mx-32 py-6 lg:py-2 xl:py-8 text-center mt-6 xl:mt-10 bg-white shadow-xl rounded-xl">
+        Организационная структура товарищества с ограниченной ответственностью
+        «Nur Zholy Customs Service»
+      </h1>
+
+      <div class="flex-col justify-center items-center hidden absolute mt-3 md:flex text-sm text-black z-10">
+        <div class="container mx-auto text-center pt-32 lg:pt-24 xl:pt-44">
+          <div class="items-center justify-center flex">
+            <div class="text-center">
+              <div class="flex flex-col justify-center items-center">
+                <div class="w-16"></div>
+                <div
+                  class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                  <p>Единственный участник</p>
+                </div>
+              </div>
+              <ul class="flex flex-row justify-center">
+                <div class="-mt-10 border-l-2 absolute border-gray-400"></div>
+                <li class="relative p-6">
+                  <div class="border-t-2 absolute border-gray-400 top-12" style="right: 50%; left: 280px"></div>
+
+                  <div class="relative flex justify-center">
+                    <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                    <div class="text-center">
+                      <div class="flex flex-col justify-center items-center">
+                        <div class="w-16"></div>
+                        <div
+                          class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                          <p>Директор</p>
+                        </div>
+                      </div>
+                      <ul class="flex flex-row mt-10 justify-center">
+                        <div class="-mt-10 border-l-2 absolute h-10 border-gray-400"></div>
+                        <li class="relative p-6">
+                          <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 50%; right: 0px">
+                          </div>
+                          <div class="relative flex justify-center">
+                            <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                            <div class="text-center">
+                              <div class="flex flex-col justify-center items-center">
+                                <div class="w-16"></div>
+                                <div
+                                  class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                  <p>Юридическая служба</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="relative p-6 -ml-4">
+                          <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 0; right: 0px"></div>
+                          <div class="relative flex justify-center">
+                            <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                            <div class="text-center">
+                              <div class="flex flex-col justify-center items-center">
+                                <div class="w-16"></div>
+                                <div
+                                  class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                  <p>Финансовая служба</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="relative p-6 -ml-4">
+                          <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 0px; right: 0"></div>
+                          <div class="relative flex justify-center">
+                            <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                            <div class="text-center">
+                              <div class="flex flex-col justify-center items-center">
+                                <div class="w-16"></div>
+                                <div
+                                  class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                  <p>Заместитель директора</p>
+                                </div>
+                              </div>
+                              <ul class="flex flex-row mt-10 justify-center absolute w-1/2 xl:w-2/4">
+                                <div class="-mt-10 border-l-2 absolute h-10 border-gray-400"></div>
+                                <li class="relative p-6">
+                                  <div class="border-t-2 absolute border-gray-400 top-0" style="left: 50%; right: 0px">
+                                  </div>
+                                  <div class="border-t-2 absolute h-8 border-gray-400 top-0"
+                                    style="left: 50%; right: 50%"></div>
+                                  <div class="relative flex justify-center">
+                                    <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                                    <div class="text-center">
+                                      <div class="flex flex-col justify-center items-center">
+                                        <div class="w-16"></div>
+                                        <div
+                                          class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold"
+                                          style="width: 170px">
+                                          <p>
+                                            Служба по стратегическому
+                                            планированию и инвестиционным
+                                            проектам
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="relative p-6 -ml-4">
+                                  <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 0; right: 0">
+                                  </div>
+                                  <div class="relative flex justify-center">
+                                    <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                                    <div class="text-center">
+                                      <div class="flex flex-col justify-center items-center">
+                                        <div class="w-16"></div>
+                                        <div
+                                          class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                          <p>Служба контроля СВХ</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="relative p-6 -ml-4">
+                                  <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 0; right: 0">
+                                  </div>
+                                  <div class="relative flex justify-center">
+                                    <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                                    <div class="text-center">
+                                      <div class="flex flex-col justify-center items-center">
+                                        <div class="w-16"></div>
+                                        <div
+                                          class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                          <p>
+                                            Служба внутреннего администрирования
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                                <li class="relative p-6 -ml-4">
+                                  <div class="border-t-2 absolute h-8 border-gray-400 top-0"
+                                    style="left: 0; right: 50%"></div>
+                                  <div class="relative flex justify-center">
+                                    <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                                    <div class="text-center">
+                                      <div class="flex flex-col justify-center items-center">
+                                        <div class="w-16"></div>
+                                        <div
+                                          class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 rounded-xl font-bold p-6">
+                                          <p>Служба эксплуатации</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="relative p-6 -ml-4">
+                          <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 0; right: 0px"></div>
+                          <div class="relative flex justify-center">
+                            <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                            <div class="text-center">
+                              <div class="flex flex-col justify-center items-center">
+                                <div class="w-16"></div>
+                                <div
+                                  class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                  <p>Служба безопасности</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="relative p-6 -ml-4">
+                          <div class="border-t-2 absolute h-8 border-gray-400 top-0" style="left: 0px; right: 50%">
+                          </div>
+                          <div class="relative flex justify-center">
+                            <div class="-mt-6 border-l-2 absolute h-6 border-gray-400 top-0"></div>
+                            <div class="text-center">
+                              <div class="flex flex-col justify-center items-center">
+                                <div class="w-14"></div>
+                                <div
+                                  class="text-black border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                                  <p>Служба информационных технологий</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <p
+                  class="absolute left-52 mt-5 py-5 pr-2 h-16 border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                  Советник
+                </p>
+                <p
+                  class="absolute right-40 py-5 pr-2 h-16 border-2 border-gray-200 bg-gradient-to-b from-white to-blue-200 p-4 rounded-xl font-bold">
+                  Комплаенс
+                </p>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inline-block px-3 py-4 md:hidden z-10 relative">
+        <div id="accordion-nested-parent" data-accordion="collaps"
+          class="bg-gray-200 text-xs flex flex-col items-center">
+          <h2 id="accordion-collapse-heading-1">
+            <button type="button"
+              class="flex items-center justify-between w-full p-3 font-medium text-left text-black border-gray-600 rounded-t-xl focus:ring-gray-400 hover:bg-gray-100"
+              data-accordion-target="#accordion-collapse-body-1" aria-expanded="false"
+              aria-controls="accordion-collapse-body-1">
+              <span>Единственный участник</span>
+              <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5 5 1 1 5" />
+              </svg>
+            </button>
+          </h2>
+          <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
+            <div class="p-3 border border-b-0 border-gray-600">
+              <p class="mb-2 text-black flex items-center justify-center">
+                Директор
+              </p>
+
+              <!-- Nested accordion -->
+              <div id="accordion-nested-collapse" data-accordion="collapse">
+                <h2 id="accordion-nested-collapse-heading-1">
+                  <button type="button"
+                    class="flex items-center justify-between w-full p-2 rounded-t-xl font-medium text-left text-black border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100"
+                    data-accordion-target="#accordion-nested-collapse-body-1" aria-expanded="false"
+                    aria-controls="accordion-nested-collapse-body-1">
+                    <span>Заместитель директора </span>
+                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                    </svg>
+                  </button>
+                </h2>
+                <div id="accordion-nested-collapse-body-1" class="hidden"
+                  aria-labelledby="accordion-nested-collapse-heading-1">
+                  <div class="p-2 border border-b-0 border-gray-600">
+                    <p class="text-black">
+                      1.Служба по стратегическому планированию и инвестиционным
+                      проектам
+                    </p>
+                    <p class="text-black">2.Служба контроля СВХ</p>
+                    <p class="text-black">
+                      3.Служба внутреннего администрирования -
+                    </p>
+                    <p class="text-black">4.Служба эксплуатации</p>
+                  </div>
+                </div>
+                <h2>
+                  <button type="button"
+                    class="flex items-center justify-between w-full p-2 font-medium text-left text-black border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100">
+                    <span>Советник</span>
+                  </button>
+                </h2>
+                <h2>
+                  <button type="button"
+                    class="flex items-center justify-between w-full p-2 font-medium text-left text-black border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100">
+                    <span>Юридическая служба </span>
+                  </button>
+                </h2>
+                <h2>
+                  <button type="button"
+                    class="flex items-center justify-between w-full p-2 font-medium text-left text-black border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100">
+                    <span>Финансовая служба </span>
+                  </button>
+                </h2>
+                <h2>
+                  <button type="button"
+                    class="flex items-center justify-between w-full p-2 font-medium text-left text-black border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100">
+                    <span>Служба безопасности </span>
+                  </button>
+                </h2>
+                <h2>
+                  <button type="button"
+                    class="flex items-center justify-between w-full p-2 font-medium text-left text-black border border-b-1 border-gray-600 focus:ring-4 focus:ring-gray-200 hover:bg-gray-100">
+                    <span>Служба информационных технологий </span>
+                  </button>
+                </h2>
+              </div>
+              <!-- End: Nested accordion -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#" id="toTop">
+    <svg width="10pt" height="10pt" viewBox="0 0 630 630" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <g>
+          <path
+            d="M489.229,442.468L254.563,37.135c-3.797-6.592-14.677-6.592-18.453,0L1.443,442.468c-1.92,3.307-1.92,7.36-0.021,10.667
+            c1.92,3.307,5.44,5.333,9.259,5.333h469.333c3.819,0,7.339-2.027,9.259-5.333C491.128,449.849,491.128,445.775,489.229,442.468z" />
+        </g>
+      </g>
+    </svg>
+  </a>
+
+
+  <footer class="text-white body-font bg-gray-500 absolute z-20 buttem-0 w-full">
+    <div
+      class="flex flex-col items-center lg:items-start border-b-2 lg:justify-start justify-center border-gray-900 pb-3">
+      <div class="py-2 flex flex-wrap items-center justify-center lg:text-xl border-b-2 border-gray-900 px-16 w-full">
+        <div
+          class="flex md:flex-nowrap flex-col sm:flex-row justify-center items-center text-center lg:text-start lg:text-xl md:text-base text-sm font-extrabold">
+          <div class="relative sm:w-64 w-40 sm:mr-4 mr-2">
+            ТОО "NurZholy Customs Service"
+          </div>
+
+          <button class="text-white md:ml-6 md:mt-0 mt-2 text-center">
+            <a v-on:click="linkAndScrollTop('/')" class="" data-lang="news">О компании</a>
+          </button>
+          <button class="text-white md:ml-6 md:mt-0 mt-2 text-center">
+            <a v-on:click="linkAndScrollTop('/Process')" class="" data-lang="news">Новости</a>
+          </button>
+          <button class="text-white md:ml-6 md:mt-0 mt-2 text-center">
+            <a v-on:click="linkAndScrollTop('/Contacts')" data-lang="contacts">
+              Контакты
+            </a>
+          </button>
+        </div>
+        <span
+          class="inline-flex sm:ml-auto sm:mt-0 mt-6 w-full justify-center lg:justify-start md:justify-start md:w-auto">
+          <a class="text-white">info@nzhkeden.kz </a>
+        </span>
+      </div>
+
+      <div class="flex pt-3 lg:pl-16 pl-4 px-4 lg:px-0 sm:justify-start justify-center">
+        <a
+          href="https://www.google.com/maps/place/%D0%9D%D2%B1%D1%80+%D0%B6%D0%BE%D0%BB%D1%8B+-+Nur+Joly/@44.1586367,80.3967903,4382m/data=!3m1!1e3!4m6!3m5!1s0x387f177232258c41:0x4bd9eec54c46002d!8m2!3d44.157463!4d80.3953389!16s%2Fg%2F11j302j8rs?entry=ttu"><svg
+            class="w-8 h-8 text-white dark:text-white p-1 border-2 border-white rounded-md" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+            <path
+              d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+          </svg>
+        </a>
+        <div class="flex flex-col px-2 text-sm">
+          <p>Юридический адрес: Жетысу область, Панфиловский район,</p>
+          <p>
+            Пенжимский сельский округ, село Пенжим, Учетный квартал 87, здание
+            27
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-500">
+      <div
+        class="mx-auto py-2 px-11 flex flex-wrap flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center">
+        <p class="text-white text-lg text-center sm:text-left ml-5">
+          © 2023 ТОО "NurZholy Customs Service". Все права защищены
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+  <script>
+    document.getElementById('openModalBtn').addEventListener('click', openModal);
+
+    function openModal() {
+      document.getElementById('modalContainer').classList.remove('hidden');
+    }
+
+    function closeModal(redirect) {
+      document.getElementById('modalContainer').classList.add('hidden');
+      if (redirect) {
+        window.location.href = 'https://www.enbek.kz/ru/search/vacancy?pou=961633&except[subsidized]=subsidized';
+      }
+    }
+
+    function linkAndScrollTop(anchor) {
+      document.getElementById('vacancyLink').click();
+    }
+  </script>
+
+
+  <script>
+    function scrollTo(to, duration = 700) {
+      const
+        element = document.scrollingElement || document.documentElement,
+        start = element.scrollTop,
+        change = to - start,
+        startDate = +new Date(),
+        // t = current time
+        // b = start value
+        // c = change in value
+        // d = duration
+        easeInOutQuad = function (t, b, c, d) {
+          t /= d / 2;
+          if (t < 1) return c / 2 * t * t + b;
+          t--;
+          return -c / 2 * (t * (t - 2) - 1) + b;
+        },
+        animateScroll = function () {
+          const currentDate = +new Date();
+          const currentTime = currentDate - startDate;
+          element.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, duration));
+          if (currentTime < duration) {
+            requestAnimationFrame(animateScroll);
+          }
+          else {
+            element.scrollTop = to;
+          }
+        };
+      animateScroll();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      let btn = document.querySelector('#toTop');
+      window.addEventListener('scroll', function () {
+        // Если прокрутили дальше 599px, показываем кнопку
+        if (pageYOffset > 100) {
+          btn.classList.add('show');
+          // Иначе прячем
+        } else {
+          btn.classList.remove('show');
+        }
+      });
+
+      // При клике прокручиываем на самый верх
+      btn.onclick = function (click) {
+        click.preventDefault();
+        scrollTo(0, 400);
+      }
+    });
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</body>
+
+</html>
